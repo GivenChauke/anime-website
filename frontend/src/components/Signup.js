@@ -1,6 +1,7 @@
 // src/components/Signup.js
 import React, { useState } from 'react';
 import { logo } from '../assets';
+import authService from '../../services/authService';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +17,14 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Here you would usually send the form data to your server
+    try {
+      const userData = await authService.register(formData);
+      console.log('User registered', userData);
+    } catch (error) {
+      console.error('Error registering user', error);
+    }
   };
 
   return (

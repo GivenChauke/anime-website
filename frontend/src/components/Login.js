@@ -1,5 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
+import authService from '../services/authService';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,10 +15,14 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Here you would usually send the form data to your server
+    try {
+      const userData = await authService.login(formData);
+      console.log('User logged in', userData);
+    } catch (error) {
+      console.error('Error logging in user', error);
+    }
   };
 
   return (
@@ -56,7 +61,7 @@ const Login = () => {
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Login
             </button>
