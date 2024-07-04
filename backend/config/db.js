@@ -6,22 +6,27 @@ dotenv.config();
 
 const uri = process.env.MONGO_URI;
 
+// Ensure the URI is correctly printed, for debugging purposes only.
+// IMPORTANT: Be careful with logging sensitive information in production environments.
+console.log(`Connecting to MongoDB with URI: ${uri}`);
+
 const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
+  tls: true
 });
 
 const connectDB = async () => {
   try {
-    // Connect the client to the server (optional starting in v4.7)
     await client.connect();
-
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // Ping the database to check connectivity
+    const pingResult = await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!", pingResult);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);

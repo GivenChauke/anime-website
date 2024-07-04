@@ -1,7 +1,7 @@
 // src/components/Signup.js
 import React, { useState } from 'react';
 import { logo } from '../assets';
-import authService from '../../services/authService';
+import {authService} from '../services';
 
 const Signup = () => {
   const [formData, setFormData] = useState({

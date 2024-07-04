@@ -1,6 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import authService from '../services/authService';
+import {authService} from '../services/';
 
 const Login = () => {
   const [formData, setFormData] = useState({
