@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { logo } from '../assets';
 import {authService} from '../services';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +24,8 @@ const Signup = () => {
     try {
       const userData = await authService.register(formData);
       console.log('User registered', userData);
+      // Redirect to login page after registration
+      navigate('/');
     } catch (error) {
       console.error('Error registering user', error);
     }

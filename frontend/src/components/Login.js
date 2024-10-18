@@ -1,8 +1,10 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import {authService} from '../services/';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,6 +22,8 @@ const Login = () => {
     try {
       const userData = await authService.login(formData);
       console.log('User logged in', userData);
+      // Redirect to home page after login
+      navigate('/');
     } catch (error) {
       console.error('Error logging in user', error);
     }
