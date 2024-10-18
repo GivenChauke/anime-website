@@ -7,19 +7,20 @@ const cors = require('cors');
 
 dotenv.config();
 
-connectDB();
+// Connect to the database
+connectDB().then(() => {
+  const app = express();
 
-const app = express();
+  // Middleware
+  app.use(cors());
+  app.use(bodyParser.json());
 
-// Enable CORS for all requests from the client's origin
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+  // Routes
+  app.use('/api/auth', authRoutes);
 
-app.use(bodyParser.json());
-
-app.use('/api/auth', authRoutes);
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}).catch((error) => {
+  console.error('Database connection failed', error);
+  process.exit(1);
+});
